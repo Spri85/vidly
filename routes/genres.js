@@ -12,9 +12,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 
-    const genre = await Genre.findById(req.params.id);
-    if (!genre) return res.status(404).send(`Genre with ID ${req.params.id} was not found.`);
-    res.send(genre);
+    try {
+        const genre = await Genre.findById(req.params.id);
+        res.send(genre);
+    } catch (err) {
+        res.status(404).send('Genre with given ID was not found.');
+    }
 });
 
 // POST REQUEST
@@ -48,27 +51,32 @@ router.put('/:id', async (req, res) => {
     } = validate(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
-    const genre = await Genre.findByIdAndUpdate(req.params.id, {
-        name: req.body.name
-    }, {
-        new: true
-    });
+    try {
+        const genre = await Genre.findByIdAndUpdate(req.params.id, {
+            name: req.body.name
+        }, {
+            new: true
+        });
+        res.send(genre);
+    } catch (err) {
+        res.status(404).send('The genre with the given ID was not found!');
+    }
 
-    if (!genre) return express.status(404).send('The genre with the given ID was not found!');
 
-    res.send(genre);
+
 });
 
 
 // DELETE REQUEST
 router.delete('/:id', async (req, res) => {
 
-    const genre = await Genre.findByIdAndRemove(req.params.id);
-
-    if (!genre) return res.status(404).send(`Genre with ID ${req.params.id} was not found`);
-
-    // Delete genre
-    res.send(genre);
+    try {
+        const genre = await Genre.findByIdAndRemove(req.params.id);
+        // Delete genre
+        res.send(genre);
+    } catch (err) {
+        res.status(404).send(`Genre with ID ${req.params.id} was not found`);
+    }
 });
 
 
