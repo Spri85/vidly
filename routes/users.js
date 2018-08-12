@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 const router = express.Router();
 const _ = require('lodash');
 const bcrypt = require('bcrypt');
@@ -8,7 +9,7 @@ const {
     validate
 } = require('../models/user');
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const {
         error
     } = validate(req.body);

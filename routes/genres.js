@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const express = require('express');
 const router = express.Router();
 const {
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST REQUEST
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const {
         error
     } = validate(req.body);
@@ -43,7 +44,7 @@ router.post('/', async (req, res) => {
 
 
 // PUT REQUEST
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
     // if bad request
     const {
@@ -68,7 +69,7 @@ router.put('/:id', async (req, res) => {
 
 
 // DELETE REQUEST
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
 
     try {
         const genre = await Genre.findByIdAndRemove(req.params.id);

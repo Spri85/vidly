@@ -1,4 +1,5 @@
 const express = require('express');
+const auth = require('../middleware/auth');
 const {
     Customer,
     validate
@@ -23,7 +24,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // POST REQUEST
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     const {
         error
     } = validate(req.body);
@@ -44,7 +45,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT REQUEST
-router.put('/:id', async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
 
     // if bad request
     const {
