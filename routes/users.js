@@ -9,6 +9,11 @@ const {
     validate
 } = require('../models/user');
 
+router.get('/me', auth, async (req, res) => {
+    const user = await User.findById(req.user._id).select('-password');
+    res.send(user);
+})
+
 router.post('/', auth, async (req, res) => {
     const {
         error
