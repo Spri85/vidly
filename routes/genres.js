@@ -1,4 +1,3 @@
-const asyncMiddleware = require('../middleware/async');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const express = require('express');
@@ -12,10 +11,10 @@ const {
 
 
 // GET REQUEST
-router.get('/', asyncMiddleware(async (req, res) => {
+router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
     res.send(genres);
-}));
+});
 
 router.get('/:id', async (req, res) => {
 
