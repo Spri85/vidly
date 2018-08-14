@@ -18,12 +18,10 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
 
-    try {
-        const genre = await Genre.findById(req.params.id);
-        res.send(genre);
-    } catch (err) {
-        res.status(404).send('Genre with given ID was not found.');
-    }
+    const genre = await Genre.findById(req.params.id);
+    if (!genre) return res.status(404).send('Genre with given ID was not found.');
+
+    res.send(genre);
 });
 
 // POST REQUEST
