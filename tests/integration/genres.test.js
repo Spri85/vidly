@@ -119,4 +119,56 @@ describe('/api/genres', () => {
         });
     });
 
+    describe('PUT /:id', () => {
+
+        let token;
+        let id;
+
+        const exec = async () => {
+            return await request(server)
+                .put('/api/genres/' + id)
+                .set('x-auth-token', token)
+                .send({
+                    name: 'genreUpdated'
+                });
+        };
+
+        beforeEach(() => {
+            token = new User({
+                name: 'newUser',
+                isAdmin: true
+            }).generateAuthToken();
+
+        });
+
+        it('should return 404 if not Genre with given ID exist', async () => {
+            const id = mongoose.Types.ObjectId().toHexString();
+            const res = await exec();
+
+            expect(res.status).toBe(404);
+        });
+
+        it('should return 404 if invalid Genre ID', async () => {
+            const id = 'a';
+            const res = await exec();
+
+            expect(res.status).toBe(404);
+        });
+
+        it('should return updated genre', async () => {
+            const genre = new Genre({
+                name: 'genreOld'
+            });
+            await genre.save();
+
+            id = genre._id;
+            const res = await exec();
+
+            expect(res.status).toBe(200);
+            expect(res.body).toHaveProperty('_id');
+            expect(res.body).toHaveProperty('name', 'genreUpdated');
+
+        });
+    });
+
 });
