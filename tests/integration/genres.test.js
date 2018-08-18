@@ -5,8 +5,11 @@ const {
 const {
     User
 } = require('../../models/user');
-let server;
+
+const mongoose = require('mongoose');
+
 describe('/api/genres', () => {
+    let server = null;
     beforeEach(() => {
         server = require('../../index');
     });
@@ -46,6 +49,13 @@ describe('/api/genres', () => {
 
         it('should return a 404 if invalid id is passed', async () => {
             const res = await request(server).get('/api/genres/1');
+
+            expect(res.status).toBe(404);
+        });
+
+        it('should return a 404 if no Genre with given id exist', async () => {
+            const id = mongoose.Types.ObjectId();
+            const res = await request(server).get('/api/genres/' + id);
 
             expect(res.status).toBe(404);
         });
@@ -108,4 +118,5 @@ describe('/api/genres', () => {
             expect(res.body).toHaveProperty('name', 'genre1');
         });
     });
+
 });

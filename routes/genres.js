@@ -10,8 +10,6 @@ const {
 } = require('../models/genre');
 
 
-
-
 // GET REQUEST
 router.get('/', async (req, res) => {
     const genres = await Genre.find().sort('name');
@@ -48,7 +46,7 @@ router.post('/', auth, async (req, res) => {
 
 
 // PUT REQUEST
-router.put('/:id', auth, async (req, res) => {
+router.put('/:id', [auth], async (req, res) => {
 
     // if bad request
     const {
@@ -66,9 +64,6 @@ router.put('/:id', auth, async (req, res) => {
     } catch (err) {
         res.status(404).send('The genre with the given ID was not found!');
     }
-
-
-
 });
 
 
