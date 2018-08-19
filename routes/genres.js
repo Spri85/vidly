@@ -2,8 +2,8 @@ const validateObjectId = require('../middleware/validateObjectId');
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const express = require('express');
-const mongoose = require('mongoose');
 const router = express.Router();
+const mongoose = require('mongoose');
 const {
     Genre,
     validate

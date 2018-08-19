@@ -22,7 +22,7 @@ module.exports = function () {
         filename: 'logfile.log'
     });
     // winston.add(winston.transports.MongoDB, {
-    //     db: 'mongodb://localhost/vildy',
+    //     db: 'mongodb://127.0.0.1/vildy',
     //     level: 'info'
     // });
 }

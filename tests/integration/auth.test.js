@@ -9,13 +9,14 @@ const {
 describe('auth middleware', () => {
     let server = null;
     let token = null;
+
     beforeEach(() => {
         server = require('../../index');
         token = new User().generateAuthToken();
     });
     afterEach(async () => {
+        await server.close();
         await Genre.remove({});
-        server.close();
     });
 
     const exec = () => {
